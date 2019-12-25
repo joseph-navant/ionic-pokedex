@@ -1,9 +1,47 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>pokemon-list</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>
+      Ionic4 Pokédex
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-searchbar placeholder="Search Pokemon" debounce="500" (ionChange)="onSearch($event)"></ion-searchbar>
+  <div *ngIf="pokemons.length > 0; else skeleton">
+    <ion-list>
+      <ion-item *ngFor="let pokemon of pokemons" [routerLink]="pokemon.id">
+        <ion-avatar slot="start">
+          <img [src]="pokemon.image" [alt]="pokemon.name">
+        </ion-avatar>
+        <ion-label class="ion-text-capitalize">
+          <h2>{{ pokemon.name }}</h2>
+          <p>#{{ pokemon.id }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
 
+    <ion-infinite-scroll (ionInfinite)="loadPokemon(true, $event)">
+      <ion-infinite-scroll-content loadingSpinner="crescent" loadingText="Loading more Pokemons...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+
+  <ng-template #skeleton>
+    <ion-list>
+      <ion-item *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]">
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label>
+          <h2>
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+          </h2>
+          <p>
+            <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ng-template>
 </ion-content>

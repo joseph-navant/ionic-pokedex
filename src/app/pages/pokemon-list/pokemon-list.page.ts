@@ -27,9 +27,7 @@ export class PokemonListPage implements OnInit {
       .getPokemonList(this.offset)
       .pipe(take(1))
       .subscribe((pokemons: Pokemon[]) => {
-        console.log(this.pokemons.length);
         this.pokemons = [...this.pokemons, ...pokemons];
-        console.log(this.pokemons.length);
 
         if (evt) {
           evt.target.complete();

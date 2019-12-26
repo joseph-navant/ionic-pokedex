@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { take } from 'rxjs/operators';
-import { Pokemon } from 'src/app/models/pokeapi';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PokemonService } from 'src/app/services/pokemon.service';
+import { Pokemon } from 'src/app/models/pokeapi';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-pokemon-list',
@@ -13,10 +12,10 @@ export class PokemonListPage implements OnInit {
   private offset = 0;
   pokemons: Pokemon[] = [];
 
-  constructor(private pokemonService: PokemonService, private route: ActivatedRoute) {}
+  constructor(private pokemonService: PokemonService) {}
 
   ngOnInit() {
-    this.pokemons = this.route.snapshot.data.pokemons;
+    this.loadPokemon();
   }
 
   loadPokemon(loadMore = false, evt?: { target: { complete: () => void } }) {
@@ -28,7 +27,9 @@ export class PokemonListPage implements OnInit {
       .getPokemonList(this.offset)
       .pipe(take(1))
       .subscribe((pokemons: Pokemon[]) => {
+        console.log(this.pokemons.length);
         this.pokemons = [...this.pokemons, ...pokemons];
+        console.log(this.pokemons.length);
 
         if (evt) {
           evt.target.complete();

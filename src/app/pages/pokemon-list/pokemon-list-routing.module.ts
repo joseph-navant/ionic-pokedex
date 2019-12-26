@@ -3,8 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { PokemonListPage } from './pokemon-list.page';
 
-import { PokemonResolver } from 'src/app/resolvers/pokemon.resolver';
-
 const routes: Routes = [
   {
     path: '',
@@ -12,9 +10,6 @@ const routes: Routes = [
   },
   {
     path: ':id',
-    resolve: {
-      pokemon: PokemonResolver
-    },
     loadChildren: () =>
       import('../pokemon-detail/pokemon-detail.module').then(m => m.PokemonDetailPageModule)
   }
